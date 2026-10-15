@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio (dry run)</title>
+<meta name="description" content="Dry run of a personal portfolio site.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#424C33; --forest-2:#556037; --cream:#FDF3E1; --sand:#F0E6CE;
+  --yellow:#F8C32D; --ink:#262B1B; --muted:#585C45;
+  --display:"Unbounded","Arial Black",sans-serif;
+  --body:"Figtree",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font:400 1.0625rem/1.65 var(--body)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.hero :focus-visible,.dlg :focus-visible{outline-color:var(--yellow)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+
+/* ---------- hero ---------- */
+.hero{background:var(--forest);color:var(--cream);border-radius:0 0 28px 28px;
+  margin:0 clamp(0px,1.5vw,20px);position:relative;overflow:hidden;padding-bottom:clamp(120px,16vw,200px)}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:28px 0}
+.logo{font:700 1.5rem var(--display);text-decoration:none}
+.nav ul{display:flex;gap:clamp(14px,3vw,34px);list-style:none;padding:0}
+.nav a{text-decoration:none;font-weight:700;font-size:.95rem}
+.nav a:hover{color:var(--yellow)}
+.name{font:900 clamp(3.4rem,17vw,13.5rem)/.9 var(--display);color:var(--yellow);
+  letter-spacing:-.02em;margin-top:clamp(8px,3vw,40px);display:block}
+.echo{font:900 clamp(3.4rem,17vw,13.5rem)/.9 var(--display);letter-spacing:-.02em;
+  color:transparent;-webkit-text-stroke:1.5px rgba(253,243,225,.28);display:block;
+  user-select:none;white-space:nowrap}
+.roleCard{position:absolute;right:clamp(16px,4vw,48px);bottom:clamp(24px,4vw,48px);
+  width:min(420px,calc(100% - 32px));background:var(--forest-2);padding:clamp(20px,3vw,32px);border-radius:6px}
+.roleCard h2{font:700 clamp(1.4rem,2.6vw,2rem)/1.15 var(--display);margin-bottom:12px}
+.roleCard p{font-size:.98rem;color:#F6EBD2}
+
+/* hero load: the one orchestrated moment */
+@media (prefers-reduced-motion:no-preference){
+  .nameMask{overflow:hidden;display:block;padding-bottom:.06em}
+  .name{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+  .echo{animation:fadeIn .8s ease both}
+  .echo:nth-of-type(2){animation-delay:.35s}
+  .echo:nth-of-type(3){animation-delay:.6s}
+  .roleCard{animation:fadeIn .8s .9s ease both}
+}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,5vw,64px);
+  align-items:start;margin-top:clamp(-130px,-10vw,-70px);position:relative;padding-bottom:clamp(64px,9vw,110px)}
+.photo{aspect-ratio:4/5;background:var(--yellow);border-radius:6px;display:grid;place-items:center;
+  text-align:center;padding:20px;color:var(--ink);font:700 .95rem var(--body)}
+.photo b{display:block;font:900 clamp(3rem,8vw,5.5rem) var(--display)}
+.about .txt{padding-top:clamp(0px,9vw,130px)}
+h2.sec{font:700 clamp(1.8rem,4vw,2.8rem)/1.1 var(--display);margin-bottom:20px}
+.about blockquote{font-style:italic;font-size:1.2rem;margin-bottom:16px}
+.about p+p{margin-top:12px}
+.about ul{margin:18px 0 28px 20px;color:var(--muted)}
+.btn{display:inline-block;background:var(--yellow);color:var(--ink);font-weight:700;text-decoration:none;
+  padding:12px 22px;border:2px solid var(--ink);border-radius:4px;cursor:pointer;font-family:var(--body);font-size:1rem}
+.btn:hover{background:var(--ink);color:var(--yellow)}
+.ph{font-size:.85rem;color:var(--muted);margin-top:10px}
+
+/* ---------- works ---------- */
+.works{background:var(--sand);padding:clamp(48px,7vw,88px) 0;border-radius:28px;margin:0 clamp(0px,1.5vw,20px)}
+.works h2.sec{text-align:center}
+.filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 0 36px}
+.chip{font:500 .95rem var(--body);padding:7px 16px;border-radius:999px;background:transparent;
+  border:2px solid var(--forest);color:var(--forest);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--forest);color:var(--cream)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px;list-style:none;padding:0}
+.card{background:var(--cream);border:0;border-radius:6px;padding:12px 12px 16px;text-align:left;width:100%;
+  cursor:pointer;font:inherit;color:inherit;transition:transform .2s ease}
+.card:hover{transform:translateY(-4px)}
+.thumb{aspect-ratio:4/5;border-radius:4px;display:grid;place-items:center;text-align:center;padding:12px;
+  font:900 2.4rem var(--display);color:rgba(38,43,27,.85)}
+.card h3{font:700 1.05rem var(--body);margin-top:12px}
+.card .meta{font-size:.88rem;color:var(--muted)}
+.empty{text-align:center;color:var(--muted);padding:30px 0}
+
+/* ---------- contact + footer ---------- */
+.contact{padding:clamp(56px,8vw,100px) 0;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.contact p{max-width:44ch}
+footer{padding:0 0 36px;color:var(--muted);font-size:.9rem}
+
+/* ---------- project dialog (stands in for the detail page) ---------- */
+.dlg{border:0;border-radius:10px;background:var(--forest);color:var(--cream);width:min(640px,calc(100% - 24px));padding:0}
+.dlg::backdrop{background:rgba(38,43,27,.7)}
+.dlg .in{padding:clamp(22px,4vw,36px)}
+.dlg h3{font:700 1.7rem/1.15 var(--display);color:var(--yellow);margin:14px 0 6px}
+.dlg .tags{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;list-style:none;padding:0}
+.dlg .tags li{border:1.5px solid var(--cream);border-radius:999px;padding:2px 12px;font-size:.88rem}
+.dlg .thumb{aspect-ratio:16/8}
+.dlg .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:22px}
+.dlg .btn{border-color:var(--yellow)}
+.dlg .btn.ghost{background:transparent;color:var(--cream);border-color:var(--cream)}
+.dlg .btn:hover{background:var(--cream);color:var(--ink)}
+
+@media (max-width:820px){
+  .roleCard{position:relative;right:auto;bottom:auto;margin:28px 16px 0;width:auto}
+  .hero{padding-bottom:40px}
+  .about{grid-template-columns:1fr;margin-top:-30px}
+  .about .txt{padding-top:0}
+  .contact{grid-template-columns:1fr}
+  .photo{max-width:340px}
+}
+@media (max-width:480px){.nav ul{gap:12px}.nav a{font-size:.85rem}}
+</style>
+</head>
+<body>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="Main">
+      <a class="logo" href="#top" data-bind="logo">Name</a>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#works">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <h1>
+      <span class="nameMask"><span class="name" data-bind="name">Name</span></span>
+      <span class="echo" aria-hidden="true" data-bind="name">Name</span>
+      <span class="echo" aria-hidden="true" data-bind="name">Name</span>
+    </h1>
+  </div>
+  <div class="roleCard">
+    <h2 data-bind="role">Aspiring web developer</h2>
+    <p data-bind="tagline"></p>
+  </div>
+</header>
+
+<main>
+  <section class="wrap about" id="about" aria-labelledby="aboutH">
+    <div class="photo" role="img" aria-label="Photo placeholder">
+      <div><b data-bind="initial">N</b>Photo placeholder</div>
+    </div>
+    <div class="txt">
+      <h2 class="sec" id="aboutH">About me</h2>
+      <blockquote data-bind="quote"></blockquote>
+      <p data-bind="bio"></p>
+      <ul id="skills"></ul>
+      <a class="btn" href="#works">See my projects</a>
+      <p class="ph">Sample text written for this dry run. Replace it with your own details.</p>
+    </div>
+  </section>
+
+  <section class="works" id="works" aria-labelledby="worksH">
+    <div class="wrap">
+      <h2 class="sec" id="worksH">My latest projects</h2>
+      <div class="filters" id="filters" role="group" aria-label="Filter projects by technology"></div>
+      <ul class="grid" id="grid"></ul>
+      <p class="empty" id="empty" hidden>No projects use that technology yet.</p>
+    </div>
+  </section>
+
+  <section class="wrap contact" id="contact" aria-labelledby="contactH">
+    <h2 class="sec" id="contactH">Want to work together?</h2>
+    <div>
+      <p>I'm open to junior roles, internships and small freelance projects. Send me an email and I'll reply as soon as I can.</p>
+      <p style="margin-top:20px"><a class="btn" id="mail" href="mailto:you@example.com">Email me</a></p>
+      <p class="ph">Placeholder address. A real contact form comes in a later version.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap"><p>&copy; <span id="yr"></span> <span data-bind="name">Name</span>. Dry run build.</p></footer>
+
+<dialog class="dlg" id="dlg" aria-labelledby="dTitle">
+  <div class="in">
+    <div class="thumb" id="dThumb"></div>
+    <h3 id="dTitle"></h3>
+    <p id="dDesc"></p>
+    <ul class="tags" id="dTags"></ul>
+    <div class="row">
+      <a class="btn" id="dLive" target="_blank" rel="noopener">View live site</a>
+      <a class="btn ghost" id="dRepo" target="_blank" rel="noopener">View code</a>
+      <button class="btn ghost" id="dClose" type="button">Close</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* ---------- DATA: this block plays the role of the database ----------
+   Field names match the planned Laravel tables (profiles / projects),
+   so moving to the real build later is a copy-over, not a redesign. */
+const profile = {
+  name: "Name",
+  role: "Aspiring web developer",
+  tagline: "I build simple, clear websites and I'm learning something new on every project.",
+  quote: "A good website feels easy to use, and that takes a lot of small decisions.",
+  bio: "I'm a self-taught web developer based in Manila. I started by rebuilding pages I liked just to see how they worked, and that turned into a habit of building small projects from scratch. I care about clean layouts, readable code and sites that work well on a phone. I'm now looking for a junior role or internship where I can keep learning from a team and contribute to real projects.",
+  skills: ["Building responsive pages with HTML, CSS and JavaScript", "Laravel apps with login and a MySQL database", "Styling with Tailwind CSS", "Reading documentation and fixing my own bugs"],
+  email: "you@example.com"
+};
+
+const projects = [
+  { title:"Project one", slug:"project-one", status:"published", sort_order:1,
+    summary:"Placeholder summary for the first project.",
+    description:"Placeholder description. Explain what the project does, who it is for, and what you built yourself.",
+    tech:["Laravel","Tailwind","MySQL"], color:"#F8C32D", live_url:"#", repo_url:"#" },
+  { title:"Project two", slug:"project-two", status:"published", sort_order:2,
+    summary:"Placeholder summary for the second project.",
+    description:"Placeholder description. Mention one problem you ran into and how you solved it.",
+    tech:["HTML","CSS","JavaScript"], color:"#B9C48A", live_url:"#", repo_url:"#" },
+  { title:"Project three", slug:"project-three", status:"published", sort_order:3,
+    summary:"Placeholder summary for the third project.",
+    description:"Placeholder description. Say what you would improve if you built it again.",
+    tech:["Laravel","Alpine"], color:"#E7A978", live_url:"", repo_url:"#" },
+  { title:"Unfinished project", slug:"unfinished", status:"draft", sort_order:4,
+    summary:"Draft projects are hidden from visitors, like the real site will do.",
+    description:"", tech:["Vue"], color:"#ccc", live_url:"", repo_url:"" }
+];
+
+/* ---------- RENDER ---------- */
+const $ = s => document.querySelector(s);
+const bind = (k,v) => document.querySelectorAll(`[data-bind="${k}"]`).forEach(e => e.textContent = v);
+bind("name",profile.name); bind("logo",profile.name); bind("role",profile.role);
+bind("tagline",profile.tagline); bind("quote",profile.quote); bind("bio",profile.bio);
+bind("initial",profile.name.charAt(0).toUpperCase());
+$("#skills").innerHTML = profile.skills.map(s=>`<li>${s}</li>`).join("");
+$("#mail").href = "mailto:" + profile.email;
+$("#yr").textContent = new Date().getFullYear();
+
+const visible = projects.filter(p => p.status === "published").sort((a,b)=>a.sort_order-b.sort_order);
+let active = "All";
+
+function drawFilters(){
+  const techs = ["All", ...new Set(visible.flatMap(p => p.tech))];
+  $("#filters").innerHTML = techs.map(t =>
+    `<button class="chip" type="button" aria-pressed="${t===active}" data-t="${t}">${t}</button>`).join("");
+}
+function drawGrid(){
+  const list = visible.filter(p => active === "All" || p.tech.includes(active));
+  $("#empty").hidden = list.length > 0;
+  $("#grid").innerHTML = list.map(p => `
+    <li><button class="card" type="button" data-s="${p.slug}">
+      <div class="thumb" style="background:${p.color}" aria-hidden="true">${p.title.split(" ").pop()}</div>
+      <h3>${p.title}</h3><p class="meta">${p.summary}</p>
+    </button></li>`).join("");
+}
+$("#filters").addEventListener("click", e => {
+  const b = e.target.closest("[data-t]"); if(!b) return;
+  active = b.dataset.t; drawFilters(); drawGrid();
+});
+$("#grid").addEventListener("click", e => {
+  const b = e.target.closest("[data-s]"); if(!b) return;
+  const p = visible.find(x => x.slug === b.dataset.s);
+  $("#dThumb").style.background = p.color; $("#dThumb").textContent = "Thumbnail placeholder";
+  $("#dThumb").style.fontSize = "1rem";
+  $("#dTitle").textContent = p.title; $("#dDesc").textContent = p.description;
+  $("#dTags").innerHTML = p.tech.map(t=>`<li>${t}</li>`).join("");
+  [["#dLive",p.live_url],["#dRepo",p.repo_url]].forEach(([id,u])=>{
+    const a=$(id); a.hidden=!u; if(u) a.href=u;
+  });
+  $("#dlg").showModal();
+});
+$("#dClose").addEventListener("click", () => $("#dlg").close());
+$("#dlg").addEventListener("click", e => { if(e.target === $("#dlg")) $("#dlg").close(); });
+
+drawFilters(); drawGrid();
+</script>
+</body>
+</html>
